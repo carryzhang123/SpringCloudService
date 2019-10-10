@@ -7,8 +7,11 @@ spring:
 
   cloud:
     gateway:
+      discovery:
+        locator:
+          enabled: true # 开启通过服务中心的自动根据 serviceId 创建路由的功能
       routes:
-      - id: user-service # 当前路由的服务标识
+      - id: neo-root # 当前路由的服务标识
 #        uri: http:127.0.0.1:8081,http:127.0.0.1:8082 # 路由的目标微服务低脂肪
         uri: lb://user-service # lb：负载均衡 user-service:服务id
         predicates: # 断言
