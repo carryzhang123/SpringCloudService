@@ -1,0 +1,28 @@
+server:
+  port: 10010 # 服务端口
+spring:
+  application:
+    name: gateway-server # 服务名
+  cloud:
+    gateway:
+      routes:
+      - id: user-service # 当前路由的服务标识
+#        uri: http:127.0.0.1:8081,http:127.0.0.1:8082 # 路由的目标微服务低脂肪
+        uri: lb://user-service # lb：负载均衡 user-service:服务id
+        predicates: # 断言
+        - Path=/user/** # 按照路径匹配的规则
+        filters: # 过滤项
+        - AddRequestHeader=truth, huge is very handsome!
+      default-filters: # 默认过滤项
+        - name: Hystrix # 指定过滤工厂名称（可以是任意过滤工厂类型）
+          args: # 指定过滤的参数
+            name: fallbackcmd  # hystrix的指令名
+            fallbackUri: forward:/fallbackTest # 失败后的跳转路径
+hystrix:
+  command:
+    default:
+      execution.isolation.thread.timeoutInMilliseconds: 1000 # 失败超时时长
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:10086/eureka
