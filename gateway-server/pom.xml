@@ -11,12 +11,7 @@
 
     <artifactId>gateway-server</artifactId>
     <dependencies>
-        <!-- springboot，不要引入，会导致Gateway抛出异常-->
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-starter-web</artifactId>-->
-        <!--        </dependency>-->
-        <!--gateway依赖-->
+        <!--Gateway依赖-->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-gateway</artifactId>
