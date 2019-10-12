@@ -6,15 +6,14 @@ import tk.mybatis.mapper.annotation.KeySql;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-@Table(name = "tb_user")
 @Data
-public class User {
+public class Account {
 
-    @Id
-    @KeySql(useGeneratedKeys = true)
+    private Long id;
+
     private String accountName; // 用户名
 
-    private String email; // 邮箱
+    private Long money; // 密码
 
-    private Long userId;// 用户标识
+    private String email;
 }

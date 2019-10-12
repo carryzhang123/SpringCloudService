@@ -1,7 +1,9 @@
 package cn.itcast.consumer.web;
 
 import cn.itcast.consumer.feign.UserClient;
+import cn.itcast.consumer.pojo.Account;
 import cn.itcast.consumer.pojo.User;
+import cn.itcast.consumer.service.UserService;
 import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,32 +19,27 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 public class ConsumerController {
 
-//    @Autowired
-//    private RestTemplate restTemplate;
-
     @Autowired
     private UserClient userClient;
 
-    @GetMapping("{id}")
-    public User queryById(@PathVariable("id") Long id) {
-        return userClient.queryById(id);
+    @Autowired
+    private UserService userService;
+
+    @GetMapping("{usernameinfo}")
+    public Account queryAllInfoByUsername(@PathVariable("usernameinfo") String username) {
+        User user = userService.queryEmailByUsername(username);
+        Account account=userClient.queryById(user.getUserId());
+        account.setEmail(user.getEmail());
+        return account;
     }
 
-//    @GetMapping("{id}")
-//    @HystrixCommand// 来声明一个降级逻辑的方法
-//    public String queryById(@PathVariable("id") Long id) {
-//        if (id == 1) {
-//            throw new RuntimeException("太忙了");
-//        }
-//
-//        String url = "http://user-service/user/" + id;
-//        String user = restTemplate.getForObject(url, String.class);
-//
-//        return user;
+
+    @GetMapping("{username}")
+    public User queryEmailByusername(@PathVariable("username") String username){
+        return userService.queryEmailByUsername(username);
+    }
+//    public String defaultFallBack() {
+//        log.error("访问出错");
+//        return "网络太拥挤";
 //    }
-
-    public String defaultFallBack() {
-        log.error("访问出错");
-        return "网络太拥挤";
-    }
 }
