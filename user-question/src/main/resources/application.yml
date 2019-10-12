@@ -1,5 +1,5 @@
 server:
-  port: 8081
+  port: 8090
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/mydb01
@@ -7,7 +7,7 @@ spring:
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   application:
-    name: user-service # 应用名称
+    name: user-question # 应用名称
 mybatis:
   type-aliases-package: cn.itcast.cn.itcast.question.pojo
   configuration:
