@@ -7,9 +7,9 @@ spring:
     password: 123456
     driver-class-name: com.mysql.jdbc.Driver
   application:
-    name: user-service # 应用名称
+    name: account-service # 应用名称
 mybatis:
-  type-aliases-package: cn.itcast.cn.itcast.question.pojo
+  type-aliases-package: cn.itcast.account.pojo
   configuration:
     map-underscore-to-camel-case: true
 logging:

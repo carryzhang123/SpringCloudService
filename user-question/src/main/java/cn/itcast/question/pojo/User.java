@@ -1,11 +1,10 @@
-package cn.itcast.user.pojo;
+package cn.itcast.account.pojo;
 
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;
 
 import javax.persistence.Id;
 import javax.persistence.Table;
-import java.util.Date;
 
 @Table(name = "tb_account")
 @Data

@@ -1,7 +1,7 @@
-package cn.itcast.user.service;
+package cn.itcast.account.service;
 
-import cn.itcast.user.mapper.UserMapper;
-import cn.itcast.user.pojo.User;
+import cn.itcast.account.mapper.UserMapper;
+import cn.itcast.account.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

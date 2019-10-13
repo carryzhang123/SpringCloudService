@@ -1,4 +1,4 @@
-package cn.itcast.user.pojo;
+package cn.itcast.account.pojo;
 
 import lombok.Data;
 import tk.mybatis.mapper.annotation.KeySql;

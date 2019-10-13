@@ -12,7 +12,7 @@ public class User {
 
     @Id
     @KeySql(useGeneratedKeys = true)
-    private String accountName; // 用户名
+    private String userName; // 用户名
 
     private String email; // 邮箱
 

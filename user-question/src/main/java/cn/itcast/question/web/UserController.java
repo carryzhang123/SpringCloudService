@@ -1,7 +1,7 @@
 package cn.itcast.question.web;
 
-import cn.itcast.user.pojo.User;
-import cn.itcast.user.service.UserService;
+import cn.itcast.account.pojo.User;
+import cn.itcast.account.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

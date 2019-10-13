@@ -25,8 +25,8 @@ public class ConsumerController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("{usernameinfo}")
-    public Account queryAllInfoByUsername(@PathVariable("usernameinfo") String username) {
+    @GetMapping("info/{username}")
+    public Account queryAllInfoByUsername(@PathVariable("username") String username) {
         User user = userService.queryEmailByUsername(username);
         Account account=userClient.queryById(user.getUserId());
         account.setEmail(user.getEmail());

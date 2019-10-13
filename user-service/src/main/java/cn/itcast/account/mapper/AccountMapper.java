@@ -1,6 +1,6 @@
-package cn.itcast.user.mapper;
+package cn.itcast.account.mapper;
 
-import cn.itcast.user.pojo.Account;
+import cn.itcast.account.pojo.Account;
 import tk.mybatis.mapper.common.Mapper;
 
 public interface AccountMapper extends Mapper<Account> {

@@ -3,11 +3,29 @@ server:
 spring:
   application:
     name: consumer # 应用名称
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb01
+    username: root
+    password: 123456
+    driver-class-name: com.mysql.jdbc.Driver
+
+mybatis:
+  type-aliases-package: cn.itcast.consumer.pojo
+  configuration:
+    map-underscore-to-camel-case: true
+
 eureka: # eureka服务注册
   client:
     service-url: # EurekaServer地址
       defaultZone: http://127.0.0.1:10086/eureka
     registry-fetch-interval-seconds: 30 # 30秒获取server服务信息
+
+  instance:
+    ip-address: 127.0.0.1 # ip地址
+    prefer-ip-address: true # IP地址作为服务id
+    instance-id: ${eureka.instance.ip-address}:${server.port} # 实例id
+    lease-renewal-interval-in-seconds: 30 # 服务续约30秒
+    lease-expiration-duration-in-seconds: 90 #服务实效时间
 
 hystrix: # 熔断机制
   command:
@@ -16,13 +34,6 @@ hystrix: # 熔断机制
       circuitBreaker.requestVolumeThreshold: 10 # 触发熔断的最小请求次数，默认20,10s内请求失败数量达到10个,断路器开
       circuitBreaker.sleepWindowInMilliseconds: 10000 #  短路多久以后开始尝试是否恢复,默认是5000毫秒
       circuitBreaker.errorThresholdPercentage: 50 # 触发熔断的失败请求最小占比，默认50%
-
-ribbon: # 负载均衡，ribbon有重试机制，一旦超时，会自动重新发起请求，feign嵌入了负载均衡ribbon
-  ConnectTimeout: 500 # 连接超时时长
-  ReadTimeout: 2000 # 数据通信超时时长
-  MaxAutoRetries: 0 # 当前服务器的重试次数
-  MaxAutoRetriesNextServer: 1 # 重试多少次服务
-  OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试
 
 feign:
   hystrix:
@@ -34,6 +45,16 @@ feign:
       min-request-size: 2048 # 设置触发压缩的大小下限
     response:
       enabled: true # 开启响应压缩
+
+# feign和ribbon结合，feign嵌入了负载均衡ribbon,指定策略。feign默认的是轮询的策略，这里的配置可以自定义
+MICROSERVICE-ORDER:
+ ribbon:
+   NFLoadBalancerRuleClassName: com.netflix.loadbalancer.RandomRule
+   ConnectTimeout: 500 # 连接超时时长
+   ReadTimeout: 2000 # 数据通信超时时长
+   MaxAutoRetries: 0 # 当前服务器的重试次数
+   MaxAutoRetriesNextServer: 1 # 重试多少次服务
+   OkToRetryOnAllOperations: false # 是否对所有的请求方式都重试
 
 logging:
   level:

@@ -9,24 +9,34 @@ spring:
     gateway:
       discovery:
         locator:
-          enabled: true # 开启通过服务中心的自动根据 serviceId 创建路由的功能
+          enabled: false #表明gateway开启服务注册和发现的功能，并且spring cloud gateway自动根据服务发现为每一个服务创建了一个router，# 这个router将以服务名开头的请求路径转发到对应的服务
+          lower-case-service-id: true #将请求路径上的服务名配置为小写（因为服务注册的时候，向注册中心注册时将服务名转成大写的了,比如以/service-hi/*的请求路径被路由转发到服务名为service-hi的服务上
+
       routes:
-      - id: neo-root # 当前路由的服务标识
-#        uri: http:127.0.0.1:8081,http:127.0.0.1:8082 # 路由的目标微服务低脂肪
-        uri: lb://user-service # lb：负载均衡 user-service:服务id
+      - id: account-service # 当前路由的服务标识
+        uri: lb://account-service # lb：负载均衡 , user-service:服务id
         predicates: # 断言
-        - Path=/user/** # 按照路径匹配的规则
+        - Path=/account/** # 按照路径匹配的规则
         filters: # 过滤项
         - AddRequestHeader=truth, huge is very handsome!
-      default-filters: # 默认过滤项
+
+      - id: consumer # 当前路由的服务标识
+        uri: lb://consumer # lb：负载均衡 , consumer:服务id
+        predicates: # 断言
+          - Path=/consumer/** # 按照路径匹配的规则
+        filters: # 过滤项
+          - AddRequestHeader=truth, huge is very handsome!
+
+      default-filters: # 默认过滤项,# 熔断降级配置
         - name: Hystrix # 指定过滤工厂名称（可以是任意过滤工厂类型）
           args: # 指定过滤的参数
             name: fallbackcmd  # hystrix的指令名
             fallbackUri: forward:/fallbackTest # 失败后的跳转路径
-hystrix:
+
+hystrix: # hystrix 信号量隔离，3秒后自动超时
   command:
     default:
-      execution.isolation.thread.timeoutInMilliseconds: 1000 # 失败超时时长
+      execution.isolation.thread.timeoutInMilliseconds: 3000 # 失败超时时长
 
 eureka:
   client:
